@@ -1,0 +1,75 @@
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+
+@app.route("/")
+def index():
+    index_fields = [
+        {
+            "year": "2020",
+            "articles": [
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts1", "createDate": "2020-11-13"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+                {"title": "ts3", "createDate": "2020-11-11"},
+            ],
+        },
+        {"year": "2019", "articles": [{"title": "ts2", "createDate": "2019-11-13"}]},
+    ]
+    return jsonify(index_fields)
