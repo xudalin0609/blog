@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { Link } from "react-router-dom";
+
+import Article from '../Article/article';
+
 
 import "./archive.scss";
 
@@ -25,9 +30,10 @@ class Archive extends Component {
             <h2 className="archive-title">{archive.year}</h2>
             {archive.articles.map((article) => (
               <article>
-                <a href="#" className="archive-item-link">
-                  {article.title}
-                </a>
+                {/* <a href="#" className="archive-item-link">
+                  {article.title} */}
+                {/* </a> */}
+                { <Link to={`/article/${article.title}`} className="archive-item-link"> {article.title}</Link> }
               </article>
             ))}
           </div>

@@ -6,6 +6,7 @@ import Archive from "./components/Archive/archive";
 import Footer from "./components/Footer/footer";
 
 import "./App.scss";
+import Article from "./components/Article/article";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <div>
         <Header />
         <Route exact path="/" component={Archive} />
+        <Route path="/article/:title" component={Article} />
         {/* <Route path="/blog" component={Blog} />
           <Route path="/demo" component={Demo} />
           <Route path="/about" component={About} /> */}
