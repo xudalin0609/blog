@@ -14,7 +14,7 @@ function App() {
       <div>
         <Header />
         <Route exact path="/" component={Archive} />
-        <Route path="/article/:title" component={Article} />
+        <Route path="/article/:id" component={Article} />
         {/* <Route path="/blog" component={Blog} />
           <Route path="/demo" component={Demo} />
           <Route path="/about" component={About} /> */}

@@ -17,7 +17,7 @@ class Archive extends Component {
 
   componentDidMount() {
     // Simple GET request using fetch
-    fetch("http://127.0.0.1:5000")
+    fetch("http://127.0.0.1:5000/article")
       .then((response) => response.json())
       .then((data) => this.setState({ archives: data }));
   }
@@ -30,10 +30,7 @@ class Archive extends Component {
             <h2 className="archive-title">{archive.year}</h2>
             {archive.articles.map((article) => (
               <article>
-                {/* <a href="#" className="archive-item-link">
-                  {article.title} */}
-                {/* </a> */}
-                { <Link to={`/article/${article.title}`} className="archive-item-link"> {article.title}</Link> }
+                { <Link to={`/article/${article.id}`} className="archive-item-link"> {article.title}</Link> }
               </article>
             ))}
           </div>

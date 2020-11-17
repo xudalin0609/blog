@@ -12,13 +12,14 @@ class Article extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props);
     this.setState({
-      content: this.findContentByTitle(this.props.match.params.title),
+      content: this.findContentById(this.props.match.params.id),
     });
   }
 
-  findContentByTitle(title) {
-    fetch(`http://127.0.0.1:5000/article/${title}`)
+  findContentById(id) {
+    fetch(`http://127.0.0.1:5000/article/${id}`)
       .then((response) => response.json())
       .then((data) => this.setState({ articleWithInfo: data }));
   }
@@ -26,7 +27,7 @@ class Article extends Component {
   render() {
     if (this.state.articleWithInfo === null) {
       return (
-        <div>
+        <div className="content">
           <h1>a test line</h1>
         </div>
       );
@@ -40,7 +41,9 @@ class Article extends Component {
           {this.state.articleWithInfo.tags.map((tag) => (
             <a className="article-tag"> {tag} </a>
           ))}
-          <Markdown source={this.state.articleWithInfo.content} />
+          <div  className="article-content">
+            <Markdown source={this.state.articleWithInfo.content}/>
+          </div>
           {/* <article>{this.state.content}</article> */}
         </div>
       );
