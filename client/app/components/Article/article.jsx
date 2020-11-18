@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-// import ReactMarkdown from "react-markdown";
-import Markdown from "react-remarkable";
+// import Markdown from "react-remarkable";
+// import Markdown from "react-markdown";
+// import Markdown from "remarkable";
+import { Remarkable } from "remarkable";
+import hljs from "highlight.js";
+
 import "./article.scss";
 
 class Article extends Component {
@@ -9,13 +13,46 @@ class Article extends Component {
     this.state = {
       articleWithInfo: null,
     };
+    this.md = new Remarkable("full", {
+      html: false, // Enable HTML tags in source
+      xhtmlOut: false, // Use '/' to close single tags (<br />)
+      breaks: false, // Convert '\n' in paragraphs into <br>
+      linkify: true, // autoconvert URL-like texts to links
+      linkTarget: "", // set target to open link in
+
+      // Enable some language-neutral replacements + quotes beautification
+      typographer: false,
+
+      // Double + single quotes replacement pairs, when typographer enabled,
+      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+      quotes: "“”‘’",
+
+      // Highlighter function. Should return escaped HTML,
+      // or '' if input not changed
+      highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(lang, str).value;
+          } catch (__) {}
+        }
+
+        try {
+          return hljs.highlightAuto(str).value;
+        } catch (__) {}
+
+        return ""; // use external default escaping
+      },
+    });
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.setState({
       content: this.findContentById(this.props.match.params.id),
     });
+  }
+
+  getRawMarkup() {
+    return { __html: this.md.render(this.state.articleWithInfo.content) };
   }
 
   findContentById(id) {
@@ -35,16 +72,16 @@ class Article extends Component {
       return (
         <div className="content">
           <h1 className="article-title">{this.state.articleWithInfo.title}</h1>
-          <span className="article-data">
-            {this.state.articleWithInfo.createTime}
+          <span className="article-date">
+            {this.state.articleWithInfo.createDate}
           </span>
           {this.state.articleWithInfo.tags.map((tag) => (
             <a className="article-tag"> {tag} </a>
           ))}
-          <div  className="article-content">
-            <Markdown source={this.state.articleWithInfo.content}/>
-          </div>
-          {/* <article>{this.state.content}</article> */}
+          <div
+            className="article-content markdown-body"
+            dangerouslySetInnerHTML={this.getRawMarkup()}
+          ></div>
         </div>
       );
     }
