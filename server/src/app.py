@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import glob
 from flask import Flask, current_app
+from flask import app
 from flask_cors import CORS
 import click
 
@@ -86,3 +87,8 @@ def register_commands(app):
                 article.md5 = current_md5
                 article.update_time = datetime.now()
                 db.session.commit()
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(host='0.0.0.0', port=5000)
