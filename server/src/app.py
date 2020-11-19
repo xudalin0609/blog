@@ -85,4 +85,4 @@ def register_commands(app):
             else:                    
                 article.md5 = current_md5
                 article.update_time = datetime.now()
-                db.commit()
+                db.session.commit()
