@@ -3,6 +3,7 @@ import os
 from flask import Blueprint, jsonify
 
 from models import Article
+from globals import date_format
 
 
 blog_bp = Blueprint('blog', __name__)
@@ -26,7 +27,8 @@ class Index:
             "title": article.title,
             "tags": article.tags.split(','),
             "year": article.create_time.year,
-            "id": article.id
+            "id": article.id,
+            "createDate": article.create_time.strftime(date_format)
         }
 
 

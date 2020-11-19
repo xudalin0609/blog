@@ -1,7 +1,7 @@
+from datetime import datetime
 import os
-from models import Article
-
-from flask import Flask
+import glob
+from flask import Flask, current_app
 from flask_cors import CORS
 import click
 
@@ -9,6 +9,8 @@ from extensions import db
 from models import Article
 from blueprint.blog import blog_bp
 from settings import config
+from models import Article
+from utils import md5
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -31,6 +33,19 @@ def register_extensions(app):
     db.init_app(app)
 
 def register_commands(app):
+    def create_article(title, tags):
+        article_path = os.path.join(basedir, f"archive/{title}.md")
+        with open(article_path, "w"):
+            article_md5 = md5(article_path)
+
+        article = Article(
+                    title=title,
+                    tags=tags,
+                    md5=article_md5
+                )
+        db.session.add(article)
+        db.session.commit()
+
     @app.cli.command()
     @click.option('--drop', is_flag=True, help='Create after drop.')
     def initdb(drop):
@@ -48,14 +63,26 @@ def register_commands(app):
     @click.option("--tags", required=True, help="Tags of article", default="other", prompt=True)
     def create(title, tags):
         click.echo("Is creating article...")
-        article = Article(
-            title=title,
-            tags=tags
-        )
-        with open(os.path.join(basedir, f"archive/{title}.md"), "w"):
-            pass
-
-        db.session.add(article)
-        db.session.commit()
+        create_article(title, tags)
         click.echo(f'Create article {title}')
-        
+
+    @app.cli.command()
+    def update():
+        click.echo("Is updating article...")
+        archive_path = current_app.config.get("ARCHIVE_PATH", os.path.join(basedir, "archive"))
+        for file_path in glob.glob(os.path.join(archive_path, "*.md")):
+            current_md5 = md5(file_path)
+            title = file_path.split("/")[-1].split(".")[0]
+            article = Article.query.filter_by(title=title).first()
+
+            if article is None:
+                create_article(title, 'others')
+                continue
+
+            article_md5 = article.md5
+            if current_md5 == article_md5:
+                continue
+            else:                    
+                article.md5 = current_md5
+                article.update_time = datetime.now()
+                db.commit()

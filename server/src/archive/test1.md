@@ -1,3 +1,0 @@
-# hi
-
-Welcome my blog!

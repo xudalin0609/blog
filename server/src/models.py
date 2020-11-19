@@ -3,33 +3,11 @@ import json
 
 from extensions import db
 
-class DBUtils:
-
-    def to_dict(self):
-        def convert_datetime(value):
-            if value:
-                return value.strftime("%Y-%m-%d %H:%M:%S")
-            else:
-                return ""
-
-        for col in self.__table__.columns:
-            if isinstance(col.type, DateTime):
-                value = convert_datetime(getattr(self, col.name))
-            elif isinstance(col.type, Numeric):
-                value = float(getattr(self, col.name))
-            else:
-                value = getattr(self, col.name)
-            yield (col.name, value)
-
-    def to_json(self):
-        d = dict(self.__todict__())
-        return json.dumps(d)
-
-
-class Article(db.Model, DBUtils):
+class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), unique=True)
     tags = db.Column(db.String(50))
+    md5 = db.Column(db.String(32))
     create_time =db.Column(db.DateTime, default=datetime.utcnow, index=True)
     update_time =db.Column(db.DateTime, default=datetime.utcnow, index=True)
         
