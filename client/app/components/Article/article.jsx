@@ -56,7 +56,7 @@ class Article extends Component {
   }
 
   findContentById(id) {
-    fetch(`http://127.0.0.1:5000/article/${id}`)
+    fetch(`http://139.224.231.207:5000/article/${id}`)
       .then((response) => response.json())
       .then((data) => this.setState({ articleWithInfo: data }));
   }
