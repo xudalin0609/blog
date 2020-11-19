@@ -49,7 +49,8 @@ const config = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({template: './app/index.html'}),
+    new HtmlWebpackPlugin({template: './app/index.html',
+                           favicon: './app/images/favicon.ico'})
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),

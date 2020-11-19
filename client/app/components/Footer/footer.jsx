@@ -5,11 +5,9 @@ import "./footer.scss";
 class Footer extends Component {
   render() {
     return (
-      <footer className="footer navbar-fixed-bottom">
-        <div className="container">
-            FOOTER
-        </div>
-      </footer>
+      <div class="footer-copyright text-center py-3">
+        Think&Code © 2020 |<a href="#"> 备案ING</a>
+      </div>
     );
   }
 }

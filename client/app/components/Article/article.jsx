@@ -72,7 +72,7 @@ class Article extends Component {
       return (
         <div className="content">
           <h1 className="article-title">{this.state.articleWithInfo.title}</h1>
-          <span className="article-date">
+          <span className="article-date date-font">
             {this.state.articleWithInfo.createDate}
           </span>
           {this.state.articleWithInfo.tags.map((tag) => (

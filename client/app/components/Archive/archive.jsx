@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { Router, Route, hashHistory, IndexRoute } from "react-router";
 import { Link } from "react-router-dom";
 
-import Article from '../Article/article';
-
+import Article from "../Article/article";
 
 import "./archive.scss";
 
@@ -29,8 +28,16 @@ class Archive extends Component {
           <div>
             <h2 className="archive-title">{archive.year}</h2>
             {archive.articles.map((article) => (
-              <article>
-                { <Link to={`/article/${article.id}`} className="archive-item-link"> {article.title}</Link> }
+              <article className="archive-item">
+                {
+                  <Link
+                    to={`/article/${article.id}`}
+                    className="archive-item-link"
+                  >
+                    {article.title}
+                  </Link>
+                }
+                <span className="archive-item-date date-font"> {article.createDate}</span>
               </article>
             ))}
           </div>
