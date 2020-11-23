@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 
 from models import Article
 from globals import date_format
@@ -8,7 +8,6 @@ from globals import date_format
 
 blog_bp = Blueprint('blog', __name__)
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
 
 class Index:
 
