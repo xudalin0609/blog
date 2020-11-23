@@ -30,7 +30,7 @@ def create_app(config_name=None):
 
 
 def register_blueprint(app):
-    app.register_blueprint(blog_bp, url_prefix="/api/article/")
+    app.register_blueprint(blog_bp, url_prefix="/api/article")
 
 
 def register_extensions(app):
