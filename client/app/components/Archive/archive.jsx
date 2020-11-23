@@ -16,7 +16,7 @@ class Archive extends Component {
 
   componentDidMount() {
     // Simple GET request using fetch
-    fetch("http://139.224.231.207:5000/article")
+    fetch("http://139.224.231.207:5000/api/article")
       .then((response) => response.json())
       .then((data) => this.setState({ archives: data }));
   }
@@ -37,7 +37,10 @@ class Archive extends Component {
                     {article.title}
                   </Link>
                 }
-                <span className="archive-item-date date-font"> {article.createDate}</span>
+                <span className="archive-item-date date-font">
+                  {" "}
+                  {article.createDate}
+                </span>
               </article>
             ))}
           </div>

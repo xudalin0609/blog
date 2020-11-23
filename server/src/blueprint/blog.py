@@ -6,14 +6,13 @@ from models import Article
 from globals import date_format
 
 
-blog_bp = Blueprint('blog', __name__)
+blog_bp = Blueprint("blog", __name__)
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-class Index:
 
+class Index:
     def __init__(self):
         self.init_articles()
-
 
     def init_articles(self):
         self.articles = []
@@ -24,12 +23,11 @@ class Index:
     def article_to_dic(self, article):
         return {
             "title": article.title,
-            "tags": article.tags.split(','),
+            "tags": article.tags.split(","),
             "year": article.create_time.year,
             "id": article.id,
-            "createDate": article.create_time.strftime(date_format)
+            "createDate": article.create_time.strftime(date_format),
         }
-
 
     def index_by_year(self):
         index = []
@@ -63,15 +61,15 @@ class Index:
         article = self.article_to_dic(article)
         article["content"] = str(content)
         return article
-            
 
-@blog_bp.route('/')
+
+@blog_bp.route("/")
 def index():
     index = Index().index_by_year()
     return jsonify(index)
 
 
-@blog_bp.route('/<int:id>')
+@blog_bp.route("/<int:id>")
 def article(id):
     article = Index().get_article_by_id(id)
     return jsonify(article)
