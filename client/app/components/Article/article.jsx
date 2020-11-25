@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-// import Markdown from "react-remarkable";
-// import Markdown from "react-markdown";
-// import Markdown from "remarkable";
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
 
