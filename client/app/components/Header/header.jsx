@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import "./header.scss";
 import logo from "./frankestein.svg";
@@ -21,9 +22,7 @@ class Header extends Component {
             <li>
               <a href="#">Github</a>
             </li>
-            <li>
-              <a href="#">Others</a>
-            </li>
+            <Link to={`/admin/uploader`}>Others</Link>
           </ul>
         </nav>
       </div>
