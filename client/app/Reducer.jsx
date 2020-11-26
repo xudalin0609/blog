@@ -12,18 +12,18 @@ const demo = (state = 0, action) => {
   }
 };
 
-const isLoggedIn = (state = false, action) => {
+const loginStatus = (state = { isLoggedIn: false, token: "" }, action) => {
   switch (action.type) {
     case "login":
-      state = true;
+      state.isLoggedIn = true;
+      state.token = action.token;
       return state;
     case "logout":
-      state = false;
       return state;
     default:
       return state;
   }
 };
 
-const reducer = combineReducers({ demo, isLoggedIn });
+const reducer = combineReducers({ demo, loginStatus });
 export default reducer;

@@ -10,9 +10,10 @@ export const decrement = () => {
   };
 };
 
-export const login = () => {
+export const login = (token) => {
   return {
     type: "login",
+    token: token,
   };
 };
 

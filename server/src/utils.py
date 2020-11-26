@@ -1,7 +1,7 @@
 import hashlib
 import os
 import glob
-import datetime
+from datetime import datetime
 
 from flask import current_app
 

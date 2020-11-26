@@ -65,14 +65,12 @@ class Index:
 
 
 @blog_bp.route("/")
-@auth_required
 def index():
     index = Index().index_by_year()
     return jsonify(index)
 
 
 @blog_bp.route("/<int:id>")
-@auth_required
 def article(id):
     article = Index().get_article_by_id(id)
     return jsonify(article)

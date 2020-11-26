@@ -6,9 +6,8 @@ import Archive from "./components/Archive/archive";
 import Footer from "./components/Footer/footer";
 
 import Article from "./components/Article/article";
+import Auth from "./components/Background/auth";
 import Uploader from "./components/Background/uploader";
-import EnsureLoggedInContainer from "./components/Background/auth";
-import Demo from "./components/Background/demo";
 
 import "./App.scss";
 
@@ -17,11 +16,12 @@ function App() {
     <Router>
       <div>
         <Header />
-        <Route exact path="/" component={Archive} />
-        <Route path="/article/:id" component={Article} />
-        {/* <Route component={EnsureLoggedInContainer}> */}
-        <Route path="/admin/uploader" component={Demo} />
-        {/* </Route> */}
+        <div className="content">
+          <Route exact path="/" component={Archive} />
+          <Route path="/article/:id" component={Article} />
+          <Route path="/login" component={Auth} />
+          <Route path="/admin/uploader" component={Uploader} />
+        </div>
         <Footer />
       </div>
     </Router>
