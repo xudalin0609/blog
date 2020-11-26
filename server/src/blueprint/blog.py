@@ -1,9 +1,10 @@
 import os
 
-from flask import Blueprint, jsonify, current_app
+from flask import Blueprint, jsonify
 
 from models import Article
 from globals import date_format
+from blueprint.auth import auth_required
 
 
 blog_bp = Blueprint("blog", __name__)
@@ -64,12 +65,14 @@ class Index:
 
 
 @blog_bp.route("/")
+@auth_required
 def index():
     index = Index().index_by_year()
     return jsonify(index)
 
 
 @blog_bp.route("/<int:id>")
+@auth_required
 def article(id):
     article = Index().get_article_by_id(id)
     return jsonify(article)

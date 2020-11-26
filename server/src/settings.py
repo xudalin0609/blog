@@ -37,7 +37,7 @@ class BaseConfig(object):
     BLUELOG_THEMES = {'perfect_blue': 'Perfect Blue', 'black_swan': 'Black Swan'}
     BLUELOG_SLOW_QUERY_THRESHOLD = 1
 
-    BLUELOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
+    UPLOAD_PATH = os.path.join(basedir, 'src/archive')
     BLUELOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
     # ARCHIVE_PATH = os.path.join(basedir, 'archive')
