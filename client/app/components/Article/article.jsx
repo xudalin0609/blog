@@ -53,8 +53,8 @@ class Article extends Component {
   }
 
   findContentById(id) {
-    var request_api = `http://127.0.0.1:5000/api/article/${id}`;
-    // const reqeust_api = `http://139.224.231.207/api/article/${id}`
+    // var request_api = `http://127.0.0.1:5000/api/article/${id}`;
+    const reqeust_api = `http://139.224.231.207/api/article/${id}`
     fetch(request_api)
       .then((response) => response.json())
       .then((data) => this.setState({ articleWithInfo: data }));

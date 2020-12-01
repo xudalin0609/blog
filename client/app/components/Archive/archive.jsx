@@ -16,6 +16,7 @@ class Archive extends Component {
 
   componentDidMount() {
     // Simple GET request using fetch
+
     fetch("http://127.0.0.1:5000/api/article/")
       .then((response) => response.json())
       .then((data) => this.setState({ archives: data }));
@@ -24,6 +25,8 @@ class Archive extends Component {
   render() {
     return (
       <div className="content">
+        <div>{process.env.API_URL}</div>
+        {/* <div>{JSON.stringify(process.env)}</div> */}
         {this.state.archives.map((archive) => (
           <div>
             <h2 className="archive-title">{archive.year}</h2>
