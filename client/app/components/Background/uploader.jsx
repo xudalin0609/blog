@@ -25,7 +25,7 @@ class Uploader extends Component {
     this.setState({ file: e.target.files[0] });
   }
   fileUpload(file) {
-    const url = "http://127.0.0.1:5000/api/admin/upload";
+    const url = process.env.API_URL + "/api/admin/upload";
     // const url = "http://139.224.231.207/api/admin/upload";
     const config = {
       headers: {

@@ -53,8 +53,7 @@ class Article extends Component {
   }
 
   findContentById(id) {
-    // var request_api = `http://127.0.0.1:5000/api/article/${id}`;
-    const reqeust_api = `http://139.224.231.207/api/article/${id}`
+    const request_api = process.env.API_URL + `/api/article/${id}`;
     fetch(request_api)
       .then((response) => response.json())
       .then((data) => this.setState({ articleWithInfo: data }));
@@ -75,7 +74,10 @@ class Article extends Component {
             {this.state.articleWithInfo.createDate}
           </span>
           {this.state.articleWithInfo.tags.map((tag) => (
-            <a className="article-tag"> {tag} </a>
+            <a className="article-tag" key={tag.toString()}>
+              {" "}
+              {tag}{" "}
+            </a>
           ))}
           <div
             className="article-content markdown-body"

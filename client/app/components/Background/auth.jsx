@@ -22,7 +22,7 @@ class Auth extends Component {
 
   login() {
     // const url = "http://127.0.0.1:5000/api/oauth/token";
-    const url = "http://139.224.231.207/api/admin/upload";
+    const url = process.env.API_URL + "/api/oauth/token";
     const formData = new FormData();
     formData.append("username", this.state.username);
     formData.append("password", this.state.password);
