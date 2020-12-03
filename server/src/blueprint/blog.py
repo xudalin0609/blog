@@ -1,14 +1,19 @@
 import os
 
 from flask import Blueprint, jsonify
+from flask.views import MethodView
+from blueprint.auth import auth_required
 
 from models import Article
 from globals import date_format
-from blueprint.auth import auth_required
+from extensions import db
+from blueprint.admin import delete_article, update_article
+from utils import get_file_path
 
 
 blog_bp = Blueprint("blog", __name__)
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
 
 
 class Index:
@@ -45,9 +50,9 @@ class Index:
 
     def get_article_by_id(self, id):
         article = Article.query.filter_by(id=id).first()
+        article_uid= article.article_uid
         article = self.article_to_dic(article)
-        title = article.get("title")
-        with open(os.path.join(basedir, f"archive/{title}.md"), "r") as f:
+        with open(get_file_path(article_uid), "r") as f:
             content = f.read()
         article["content"] = str(content)
         return article
@@ -70,7 +75,24 @@ def index():
     return jsonify(index)
 
 
-@blog_bp.route("/<int:id>")
-def article(id):
-    article = Index().get_article_by_id(id)
-    return jsonify(article)
+class ArticleAPI(MethodView):
+
+    def get(self, id):
+        article = Index().get_article_by_id(id)
+        return jsonify(article)
+
+    @auth_required 
+    def delete(self, id):
+        if delete_article(id):
+            return jsonify({"message": "success"})
+        else:
+            return jsonify({"message": "failed"})
+
+    @auth_required    
+    def put(self, id):
+        update_article(id)
+        return jsonify({"message": "success"})
+
+
+
+blog_bp.add_url_rule("/<int:id>", view_func=ArticleAPI.as_view('article'))

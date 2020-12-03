@@ -49,3 +49,7 @@ def create_user(username, password):
     user.set_password(password=password)
     db.session.add(user)
     db.session.commit()
+
+def get_file_path(filename):
+    return os.path.join(current_app.config['UPLOAD_PATH'], filename)
+
