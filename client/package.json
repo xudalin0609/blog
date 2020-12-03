@@ -55,10 +55,12 @@
     "style-loader": "^2.0.0",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-parallel-uglify-plugin": "^1.1.2"
   },
   "scripts": {
     "build": "webpack",
-    "dev": "cross-env NODE_ENV=development webpack serve --hot"
+    "dev": "cross-env NODE_ENV=development webpack serve --hot",
+    "analysis": "webpack --profile --json > stats.json"
   }
 }

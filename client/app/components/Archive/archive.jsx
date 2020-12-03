@@ -25,8 +25,6 @@ class Archive extends Component {
   render() {
     return (
       <div className="content">
-        <div>{}</div>
-        {/* <div>{JSON.stringify(process.env)}</div> */}
         {this.state.archives.map((archive) => (
           <div key={archive.year.toString()}>
             <h2 className="archive-title">{archive.year}</h2>
@@ -41,7 +39,6 @@ class Archive extends Component {
                   </Link>
                 }
                 <span className="archive-item-date date-font">
-                  {" "}
                   {article.createDate}
                 </span>
               </article>

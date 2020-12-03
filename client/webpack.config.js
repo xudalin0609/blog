@@ -1,7 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const webpack = require('webpack');
 const path = require('path');
-const webpack = require('webpack');
 const Dotenv = require ( "dotenv-webpack" );
 
 
@@ -51,10 +49,11 @@ const config = {
       },
     ]
   },
+
   plugins: [
     new HtmlWebpackPlugin({template: './app/index.html',
                            favicon: './app/images/favicon.ico'}),
-    new Dotenv({path: process.env.NODE_ENV === "development" ? "./.env.development": "./.env.production" }),
+    new Dotenv({path: process.env.NODE_ENV === "development" ? "./.env.development": "./.env.production" })
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),

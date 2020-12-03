@@ -35,7 +35,7 @@ class Auth extends Component {
     post(url, formData, config)
       .then((response) => {
         console.log(response);
-        const token = response.data.token;
+        const token = response.data.access_token;
         this.setState({ message: "登陆成功" });
         this.setState({ isLoggedIn: true });
         store.dispatch(Action.login(token));
