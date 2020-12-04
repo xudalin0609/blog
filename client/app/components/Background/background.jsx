@@ -20,6 +20,7 @@ class BackGround extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
+    // this.fileDelete = this.fileDelete.bind(this);
   }
 
   onFormSubmit(e) {
@@ -43,8 +44,6 @@ class BackGround extends Component {
     const formData = new FormData();
     formData.append("file", file);
 
-    formData.append("token", this.state.token);
-    formData.append("token_typle", "Bearer");
     post(url, formData, config)
       .then((response) => {
         this.setState({ uploadStatus: response.data.status });
@@ -58,7 +57,11 @@ class BackGround extends Component {
   fileDelete(id) {
     const url = process.env.API_URL + `/api/article/${id}`;
     axios
-      .delete(url)
+      .delete(url, {
+        headers: {
+          Authorization: "Bearer " + this.state.token,
+        },
+      })
       .then((response) => {
         this.setState({ uploadStatus: response.data.status });
       })
@@ -67,7 +70,23 @@ class BackGround extends Component {
       });
   }
 
-  fileUpdate(file) {}
+  fileUpdate(id, file) {
+    const url = process.env.API_URL + `/api/article/${id}`;
+    const formData = new FormData();
+    formData.append("file", file);
+    axios
+      .put(url, formData, {
+        headers: {
+          Authorization: "Bearer " + this.state.token,
+        },
+      })
+      .then((response) => {
+        this.setState({ uploadStatus: response.data.status });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   getArchives() {
     fetch(process.env.API_URL + "/api/article/")
@@ -75,8 +94,9 @@ class BackGround extends Component {
       .then((data) => this.setState({ archives: data }));
   }
 
-  componentWillUnmount() {
+  componentDidMount() {
     this.getArchives();
+    console.log(this.state.archives);
   }
 
   render() {
@@ -100,14 +120,14 @@ class BackGround extends Component {
                     <button
                       type="button"
                       className="btn btn-success"
-                      onClick={this.fileUpdate}
+                      onClick={this.fileUpdate.bind(this, article.id)}
                     >
                       Update
                     </button>
                     <button
                       type="button"
                       className="btn btn-danger m-l-8"
-                      onClick={this.fileDelete}
+                      onClick={this.fileDelete.bind(this, article.id)}
                     >
                       Delete
                     </button>
