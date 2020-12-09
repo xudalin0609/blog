@@ -70,10 +70,10 @@ class BackGround extends Component {
       });
   }
 
-  fileUpdate(id, file) {
+  fileUpdate(id) {
     const url = process.env.API_URL + `/api/article/${id}`;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", this.state.file);
     axios
       .put(url, formData, {
         headers: {
@@ -131,6 +131,7 @@ class BackGround extends Component {
                     >
                       Delete
                     </button>
+                    
                   </span>
                 </article>
               ))}
