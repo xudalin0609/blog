@@ -1,12 +1,11 @@
-import hashlib
 import os
-import glob
-from datetime import datetime
+import hashlib
+import json
 
 from flask import current_app
 
-from models import Article, User
-from extensions import db
+from globals import basedir
+
 
 def md5(fname):
     hash_md5 = hashlib.md5()
@@ -15,41 +14,20 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
-def create_article(title, tags):
-    article_path = os.path.join(current_app.config['UPLOAD_PATH'], f"{title}.md")
-    with open(article_path, "w"):
-        article_md5 = md5(article_path)
-
-    article = Article(title=title, tags=tags, md5=article_md5)
-    db.session.add(article)
-    db.session.commit()
-
-
-def update_articles():
-    archive_path = current_app.config['UPLOAD_PATH']
-    for file_path in glob.glob(os.path.join(archive_path, "*.md")):
-        current_md5 = md5(file_path)
-        title = file_path.split("/")[-1].split(".")[0]
-        article = Article.query.filter_by(title=title).first()
-        if article is None:
-            create_article(title, "others")
-            continue
-
-        article_md5 = article.md5
-        if current_md5 == article_md5:
-            continue
-        else:
-            article.md5 = current_md5
-            article.update_time = datetime.now()
-            db.session.commit()
-
-
-def create_user(username, password):
-    user = User(username=username)
-    user.set_password(password=password)
-    db.session.add(user)
-    db.session.commit()
 
 def get_file_path(filename):
     return os.path.join(current_app.config['UPLOAD_PATH'], filename)
 
+
+def get_index():
+    with open(basedir+"/../docs/.index", "r") as f:
+        index = json.load(f)
+    return index
+
+
+def get_article(_id):
+    article_info = get_index()[str(_id)]
+    article_name = ".".join([article_info["name"], article_info["suffix"]])
+    with open(basedir+"/../docs/"+article_name, "r") as f:
+        article = f.read()
+    return article
