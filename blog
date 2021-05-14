@@ -1,0 +1,8 @@
+#!/usr/bin/python3
+import sys
+
+from scripts.shell import main
+
+
+if __name__ == "__main__":
+    sys.exit(main())
