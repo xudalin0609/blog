@@ -1,0 +1,42 @@
+@import "~bootstrap/scss/bootstrap.scss";
+h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+li {
+  display: inline;
+}
+
+.content {
+  max-width: 700px;
+  margin: 40px auto 10px;
+  padding: 0 15px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #333;
+}
+
+p, body {
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.date-font {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
