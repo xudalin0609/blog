@@ -3,6 +3,7 @@ import hashlib
 import json
 
 from flask import current_app
+from flask import jsonify
 
 from globals import basedir
 
@@ -29,5 +30,15 @@ def get_article(_id):
     article_info = get_index()[str(_id)]
     article_name = ".".join([article_info["name"], article_info["suffix"]])
     with open(basedir+"/../docs/"+article_name, "r") as f:
-        article = f.read()
+        article = article_info.copy()
+        article['content'] = f.read()
     return article
+
+
+def response(code='200', msg=''):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            resp = {'code': code, 'msg': msg, 'data': func(*args, **kwargs)}
+            return jsonify(resp)
+        return wrapper
+    return decorator

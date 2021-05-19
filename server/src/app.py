@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-from extensions import db
 from blueprint.article import bp_article
 from blueprint.index import bp_index
 from settings import config
@@ -18,17 +17,12 @@ def create_app(config_name=None):
     CORS(app, supports_credentials=True)
 
     register_blueprint(app)
-    register_extensions(app)
     return app
 
 
 def register_blueprint(app):
     app.register_blueprint(bp_index, url_prefix="/api")
     app.register_blueprint(bp_article, url_prefix="/api")
-
-
-def register_extensions(app):
-    db.init_app(app)
 
 
 if __name__ == "__main__":

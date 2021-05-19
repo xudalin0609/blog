@@ -69,7 +69,7 @@ class Index:
             if article.name in self._index:
                 continue
             else:
-                self._index[article.name] = {
+                self._index[article._id] = {
                     'id': article._id,
                     'name': article.name,
                     'create_date': article.create_date,

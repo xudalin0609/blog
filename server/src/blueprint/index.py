@@ -1,6 +1,7 @@
 from flask import Blueprint, views
 from flask import jsonify
 
+import utils
 from utils import get_index
 from errors import api_abort
 
@@ -11,20 +12,23 @@ bp_index = Blueprint("index", __name__)
 class IndexAPI(views.MethodView):
 
     def _sort_index_by_year(self, index):
-        sorted_index = {}
-        for _id, info in index.items():
-            year = info["create_time"][:4]
-            if year in sorted_index:
-                sorted_index[year].append(info)
+        sorted_index = []
+        year_cache = {}
+        for _, info in index.items():
+            year = info["create_date"][:4]
+            if year in year_cache:
+                sorted_index[year_cache[year]]['articles'].append(info)
             else:
-                sorted_index[year] = [info]
-        sorted(sorted_index)
+                sorted_index.append({'year': year, 'articles': [info]})
+                year_cache[year] = len(year_cache)
+        sorted_index = sorted(sorted_index, key=lambda x: x['year'])
         return sorted_index
 
     def _get_index_by_type(self):
         pass
 
-    # TODO 修改error方式，优化排序算法
+    # TODO 优化排序算法
+    @utils.response()
     def get(self, sort_by):
         index = get_index()
         if sort_by == "type":
@@ -34,7 +38,7 @@ class IndexAPI(views.MethodView):
         else:
             return api_abort(401, "sort_type invalid")
 
-        return jsonify(sorted_index)
+        return sorted_index
 
 
 bp_index.add_url_rule(

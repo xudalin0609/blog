@@ -33,3 +33,12 @@ class ListAction(ActionTemplate):
         for v in index.values():
             table.add_row(list(v.values()))
         print(table)
+
+
+class UpdateAction(ActionTemplate):
+    name = 'update'
+
+    def run(self, args):
+        index = Index()
+        index.update()
+        print("Successful update!")
