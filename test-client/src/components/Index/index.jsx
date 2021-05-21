@@ -33,10 +33,10 @@ class Index extends Component {
     getTitleLine(articles) {
         return (
             articles.map((article) => (
-                <article>
+                <div className="title-line">
                     <a>{article.name}</a>
                     <span>{article.create_date}</span>
-                </article>
+                </div>
             ))
         )
     }
@@ -46,7 +46,7 @@ class Index extends Component {
             <div>
                 {
                     this.state.index.map((year_articles) => (
-                        <div>
+                        <div className="year-block">
                             <h1>{year_articles.year}</h1>
                             {this.getTitleLine(year_articles.articles)}
                         </div>

@@ -10,9 +10,11 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <div class="container-fluid">
+      <div>
         <Header />
-        <Route exact path="/" component={Index} />
+        <div className="content">
+          <Route exact path="/" component={Index} />
+        </div>
         <Footer />
       </div>
     </Router>

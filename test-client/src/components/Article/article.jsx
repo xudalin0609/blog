@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
 
-import "./article.scss";
+import "../../static/css/article.scss";
 
 class Article extends Component {
   constructor(props) {
@@ -30,12 +30,12 @@ class Article extends Component {
         if (lang && hljs.getLanguage(lang)) {
           try {
             return hljs.highlight(lang, str).value;
-          } catch (__) {}
+          } catch (__) { }
         }
 
         try {
           return hljs.highlightAuto(str).value;
-        } catch (__) {}
+        } catch (__) { }
 
         return ""; // use external default escaping
       },
