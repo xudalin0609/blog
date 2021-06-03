@@ -6,6 +6,7 @@ import Footer from "./components/Footer/footer";
 import Index from "./components/Index/index"
 
 import './App.css';
+import Article from "./components/Article/article";
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
         <Header />
         <div className="content">
           <Route exact path="/" component={Index} />
+          <Route exact path="/article/:id" component={Article} />
         </div>
         <Footer />
       </div>
-    </Router>
+    </Router >
 
   );
 }

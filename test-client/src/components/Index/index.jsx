@@ -1,15 +1,19 @@
 import React, { Component } from "react";
-import "../../static/css/index.scss";
+import { Link } from 'react-router-dom';
+
+import "./index.scss";
+import { getBaseUrl } from "../../utils";
 
 const axios = require('axios');
 
 class Index extends Component {
     constructor(props) {
         super(props);
+        let baseUrl = getBaseUrl();
+
         this.state = {
             index: [],
-            // TODO 使用配置文件设置url
-            urls: "http://127.0.0.1:5000/",
+            urls: baseUrl,
         }
     }
 
@@ -34,9 +38,9 @@ class Index extends Component {
         return (
             articles.map((article) => (
                 <div className="title-line">
-                    <a>{article.name}</a>
+                    <Link to={`/article/${article.id}`}>{article.name}</Link>
                     <span>{article.create_date}</span>
-                </div>
+                </div >
             ))
         )
     }
@@ -52,7 +56,6 @@ class Index extends Component {
                         </div>
                     ))
                 }
-
             </div>
         )
 

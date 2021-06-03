@@ -21,13 +21,13 @@ class IndexAPI(views.MethodView):
             else:
                 sorted_index.append({'year': year, 'articles': [info]})
                 year_cache[year] = len(year_cache)
-        sorted_index = sorted(sorted_index, key=lambda x: x['year'])
+        sorted_index = sorted(
+            sorted_index, key=lambda x: x['year'], reverse=True)
         return sorted_index
 
     def _get_index_by_type(self):
         pass
 
-    # TODO 优化排序算法
     @utils.response()
     def get(self, sort_by):
         index = get_index()

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import "../../static/css/header.scss";
+import "./header.scss";
 import logo from "../../static/images/frankestein.svg";
 
 class Header extends Component {
@@ -11,7 +11,7 @@ class Header extends Component {
         <nav className="navbar">
           <img src={logo} className="logo" alt=""></img>
           <li className="">
-            <Link to={`/`} className="">Home</Link>
+            <Link to={`/`} >Index</Link>
           </li>
           <li className="">
             <Link to="#" className="">Python</Link>

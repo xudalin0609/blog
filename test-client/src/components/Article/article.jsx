@@ -1,91 +1,58 @@
 import React, { Component } from "react";
-import { Remarkable } from "remarkable";
-import hljs from "highlight.js";
+import Markdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-import "../../static/css/article.scss";
+import "./article.scss"
+
+const codeComponents = {
+  code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || '')
+    return !inline && match ? (
+      <SyntaxHighlighter language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+    ) : (
+      <code className={className} {...props} />
+    )
+  }
+}
+
+
+const axios = require('axios');
 
 class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articleWithInfo: null,
-    };
-    this.md = new Remarkable("full", {
-      html: false, // Enable HTML tags in source
-      xhtmlOut: false, // Use '/' to close single tags (<br />)
-      breaks: false, // Convert '\n' in paragraphs into <br>
-      linkify: true, // autoconvert URL-like texts to links
-      linkTarget: "", // set target to open link in
-
-      // Enable some language-neutral replacements + quotes beautification
-      typographer: false,
-
-      // Double + single quotes replacement pairs, when typographer enabled,
-      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-      quotes: "“”‘’",
-
-      // Highlighter function. Should return escaped HTML,
-      // or '' if input not changed
-      highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value;
-          } catch (__) { }
-        }
-
-        try {
-          return hljs.highlightAuto(str).value;
-        } catch (__) { }
-
-        return ""; // use external default escaping
-      },
-    });
+      content: "",
+      // TODO 使用配置文件设置url
+      urls: "http://127.0.0.1:5000/",
+    }
   }
-
   componentDidMount() {
-    this.setState({
-      content: this.findContentById(this.props.match.params.id),
-    });
+    this.getArticle(this.props.match.params.id)
+
   }
 
-  getRawMarkup() {
-    return { __html: this.md.render(this.state.articleWithInfo.content) };
-  }
+  getArticle(article_id) {
+    var api = this.state.urls + "api/article/" + article_id;  //拼接api地址
 
-  findContentById(id) {
-    const request_api = process.env.API_URL + `/api/article/${id}`;
-    fetch(request_api)
-      .then((response) => response.json())
-      .then((data) => this.setState({ articleWithInfo: data }));
+    axios.get(api)
+      .then(res => {
+        this.setState({ content: res.data.content })
+      })
+      .catch(err => {
+        console.error(err);
+      })
+
   }
 
   render() {
-    if (this.state.articleWithInfo === null) {
-      return (
-        <div className="content">
-          <h1>a test line</h1>
-        </div>
-      );
-    } else {
-      return (
-        <div className="content">
-          <h1 className="article-title">{this.state.articleWithInfo.title}</h1>
-          <span className="article-date date-font">
-            {this.state.articleWithInfo.createDate}
-          </span>
-          {this.state.articleWithInfo.tags.map((tag) => (
-            <a className="article-tag" key={tag.toString()}>
-              {" "}
-              {tag}{" "}
-            </a>
-          ))}
-          <div
-            className="article-content markdown-body"
-            dangerouslySetInnerHTML={this.getRawMarkup()}
-          ></div>
-        </div>
-      );
-    }
+
+    return (
+      <div className="clearfix typo">
+        <Markdown components={codeComponents}
+          children={this.state.content} />
+      </div>
+    )
   }
 }
 

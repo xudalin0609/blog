@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "../../static/css/footer.scss";
+import "./footer.scss";
 
 class Footer extends Component {
   render() {

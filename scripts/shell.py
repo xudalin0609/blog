@@ -1,5 +1,5 @@
 """
-Command-line interface to the OpenStack Nova API.
+blog docs cli
 """
 
 import sys
@@ -69,6 +69,7 @@ class Shell:
 
 
 def main():
+    logging.basicConfig(filename="./error.log", level=logging.DEBUG)
     try:
         argv = [a for a in sys.argv[1:]]
         Shell().main(argv)

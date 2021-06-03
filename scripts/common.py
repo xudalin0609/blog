@@ -1,8 +1,9 @@
-from datetime import date
-from uuid import uuid4
+import platform
 import json
 import os
 import time
+import uuid
+from uuid import uuid3
 
 BASE_PATH = '/mnt/f/WorkSpace/new-blog/'
 DOCS_PATH = os.path.join(BASE_PATH, 'docs')
@@ -10,18 +11,28 @@ INDEX_PATH = os.path.join(DOCS_PATH, '.index')
 
 
 def get_create_date(path):
-    timestamp = os.path.getctime(path)
+    if platform.system() == 'Windows':
+        timestamp = os.path.getctime(path)
+    else:
+        stat = os.stat(path)
+        try:
+            timestamp = stat.st_birthtime
+        except AttributeError:
+            # We're probably on Linux. No easy way to get creation dates here,
+            # so we'll settle for when its content was last modified.
+            timestamp = stat.st_mtime
     local_timestamp = time.localtime(timestamp)
     return time.strftime('%Y-%m-%d', local_timestamp)
 
 
 def get_articles():
-    articles = []
+    articles = {}
     for article in os.listdir(DOCS_PATH):
         path = os.path.join(DOCS_PATH, article)
         if article.startswith('.') or os.path.isdir(path):
             continue
-        articles.append(Article(article, path))
+        article_obj = Article(article, path)
+        articles[article_obj._id] = article_obj
     return articles
 
 
@@ -38,14 +49,14 @@ class ActionTemplate:
         subparser.set_defaults(func=self.run)
         self.add_parameter(subparser)
 
-    def add_parameter(self, subparser):
+    def add_parameter(self, *args, **kwargs):
         pass
 
 
 class Article:
 
     def __init__(self, name, path, _id=None, create_date=None, catalog='Other'):
-        self._id = _id or str(uuid4()).replace('-', '')
+        self._id = _id or str(uuid3(uuid.NAMESPACE_DNS, name)).replace('-', '')
         self.name, self.suffix = name.split('.')
         self.create_date = create_date or get_create_date(path)
         self.catalog = catalog
@@ -65,19 +76,20 @@ class Index:
 
     def update(self):
         articles = get_articles()
-        for article in articles:
-            if article.name in self._index:
-                continue
-            else:
-                self._index[article._id] = {
-                    'id': article._id,
-                    'name': article.name,
-                    'create_date': article.create_date,
-                    'catalog': article.catalog,
-                    'suffix': article.suffix
-                }
+        for index in self._index:
+            if index in articles:
+                articles.pop(index)
+
+        for article in articles.values():
+            self._index[article._id] = {
+                'id': article._id,
+                'name': article.name,
+                'create_date': article.create_date,
+                'catalog': article.catalog,
+                'suffix': article.suffix,
+            }
         self._save()
 
     def _save(self):
         with open(INDEX_PATH, 'w') as f:
-            f.write(json.dumps(self._index))
+            f.write(json.dumps(self._index, ensure_ascii=False))
